@@ -1,0 +1,1 @@
+Collision yang terdeteksi pada enemy adalah colission untuk area ngejar player, bukan hitbox.

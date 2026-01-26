@@ -5,11 +5,13 @@ class_name AttackState extends State
 @onready var walk: WalkState = $"../Walk"
 @onready var idle: StateIdle = $"../Idle"
 
+
 var isAttacking: bool = false
 
 func Enter() -> void:
 	isAttacking = true
 	play_attack_animation()
+	player.perform_attack()
 
 func Physics(_delta: float) -> State:
 	player.direction = get_input()
