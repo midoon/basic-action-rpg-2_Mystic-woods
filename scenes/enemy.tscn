@@ -133,7 +133,7 @@ radius = 43.0
 radius = 4.1231055
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4ra3w"]
-radius = 13.0
+radius = 8.0
 
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_md0e3")
@@ -160,7 +160,7 @@ collision_layer = 8
 collision_mask = 4
 
 [node name="HitBoxCollision" type="CollisionShape2D" parent="HitBox"]
-position = Vector2(0, -5)
+position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_4ra3w")
 
 [connection signal="body_entered" from="detectionArea" to="." method="_on_detection_area_body_entered"]

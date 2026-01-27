@@ -5,7 +5,7 @@ var PLAYER_CHASE: bool = false
 var PLAYER: Node2D = null
 var is_dead := false
 
-@export var max_hp:int = 50
+@export var max_hp:int = 100
 @export var attack_daamge: int = 5
 @export var attack_cooldown: float = 1.5
 
@@ -95,11 +95,9 @@ func _on_detection_area_body_exited(body: Node2D) -> void:
 
 func _on_hit_box_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player_attack") or area.owner is Player:
-		print("masuk area hitbox musuh")
 		player_in_hitbox = true
 
 
 func _on_hit_box_area_exited(area: Area2D) -> void:
 	if area.is_in_group("player_attack") or area.owner is Player:
-		print("keluar area hitbox musuh")
 		player_in_hitbox = false

@@ -422,7 +422,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tuyoq"]
-radius = 12.0
+radius = 9.0
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 3
@@ -452,14 +452,16 @@ script = ExtResource("5_fjrip")
 
 [node name="Attack" type="Node" parent="StateMachine"]
 script = ExtResource("6_smehm")
+decelerate_speed = null
 
 [node name="AttackBox" type="Area2D" parent="."]
 collision_layer = 4
 collision_mask = 8
 
 [node name="AttackBoxCollision" type="CollisionShape2D" parent="AttackBox"]
-position = Vector2(0, -8)
+position = Vector2(0, -6)
 shape = SubResource("CircleShape2D_tuyoq")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="StateMachine/Attack" method="_on_animated_sprite_2d_animation_finished"]
-[connection signal="body_entered" from="AttackBox" to="AttackBox" method="_on_body_entered"]
+[connection signal="area_entered" from="AttackBox" to="StateMachine/Attack" method="_on_attack_box_area_entered"]
+[connection signal="area_exited" from="AttackBox" to="StateMachine/Attack" method="_on_attack_box_area_exited"]

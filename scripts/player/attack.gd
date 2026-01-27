@@ -1,24 +1,26 @@
 class_name AttackState extends State
 
 @export_range(1,20,0.5) var decelerate_speed: float = 5.0
+@export var attack_duration := 0.3
 
 @onready var walk: WalkState = $"../Walk"
 @onready var idle: StateIdle = $"../Idle"
+@onready var attack_box: Area2D = $"../../AttackBox"
+ 
 
-
-var isAttacking: bool = false
+var is_attacking: bool = false
 
 func Enter() -> void:
-	isAttacking = true
+	is_attacking = true
 	play_attack_animation()
-	player.perform_attack()
+	start_attack()
 
 func Physics(_delta: float) -> State:
 	player.direction = get_input()
 	player.velocity -= player.velocity * decelerate_speed * _delta
 	player.move_and_slide()
 	
-	if !isAttacking:
+	if !is_attacking:
 		if player.direction == Vector2.ZERO:
 			return idle
 		else:
@@ -45,8 +47,32 @@ func play_attack_animation():
 		sprite.animation = "attack_back"
 	
 	sprite.play()
+	
+func start_attack() -> void:
+	attack_box.monitoring = true
+	await get_tree().create_timer(attack_duration).timeout 
+	attack_box.monitoring = false
+	is_attacking = false
+	
+
 
 
 func _on_animated_sprite_2d_animation_finished() -> void:
-	isAttacking = false
+	is_attacking = false
+	
+
+func _on_attack_box_area_entered(area: Area2D) -> void:
+	if not is_attacking:
+		return
+		
+	if area.is_in_group("enemy_hitbox"):
+		var enemy = area.get_parent()
+		if enemy and enemy.has_method("take_damage"):
+			enemy.take_damage(player.attack_damage) 
+	
+
+
+func _on_attack_box_area_exited(area: Area2D) -> void:
+	if area.is_in_group("enemy_hitbox"):
+		print("Attack State Exit area")
 	

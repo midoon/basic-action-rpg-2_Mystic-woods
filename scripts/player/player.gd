@@ -18,7 +18,6 @@ func _ready() -> void:
 	current_hp = max_hp
 	spawn_position = global_position
 	state_machine.Initializer(self)
-	
 	attack_box.monitoring = false
 
 func take_damage(damage:int) -> void:
@@ -33,13 +32,8 @@ func take_damage(damage:int) -> void:
 
 func die() -> void:
 	is_dead = true
-	print("Player Died!!!!")
-	
 	set_physics_process(false)
 	state_machine.process_mode = Node.PROCESS_MODE_DISABLED
-	
-	# Play death animation if you have one
-	# animated_sprite_2d.play("death")
 	
 	await  get_tree().create_timer(2.0).timeout
 	respawn()
@@ -51,16 +45,3 @@ func respawn() -> void:
 	set_physics_process(true)
 	state_machine.process_mode = Node.PROCESS_MODE_INHERIT
 	print("Player Respawned!")
-
-func perform_attack() -> void:
-	attack_box.monitoring = true
-	
-	var enemies = attack_box.get_overlapping_areas()
-	for area in enemies:
-		if area.is_in_group("enemy_hitbox"):
-			var enemy = area.get_parent()
-			if enemy.has_method("take_damage"):
-				enemy.take_damage(attack_damage)
-	
-	await get_tree().create_timer(0.3).timeout
-	attack_box.monitoring = false
