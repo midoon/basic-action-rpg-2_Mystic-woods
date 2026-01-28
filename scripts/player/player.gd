@@ -27,6 +27,10 @@ func take_damage(damage:int) -> void:
 	current_hp -= damage
 	print("Player HP: ", current_hp)
 	
+	animated_sprite_2d.modulate = Color.RED
+	await get_tree().create_timer(0.1).timeout
+	animated_sprite_2d.modulate = Color.WHITE
+	
 	if current_hp <= 0:
 		die()
 
@@ -35,7 +39,9 @@ func die() -> void:
 	set_physics_process(false)
 	state_machine.process_mode = Node.PROCESS_MODE_DISABLED
 	
-	await  get_tree().create_timer(2.0).timeout
+	animated_sprite_2d.play("died")
+	await  animated_sprite_2d.animation_finished
+	await  get_tree().create_timer(1.0).timeout
 	respawn()
 	
 func respawn() -> void:
@@ -43,5 +49,5 @@ func respawn() -> void:
 	current_hp = max_hp
 	is_dead = false
 	set_physics_process(true)
-	state_machine.process_mode = Node.PROCESS_MODE_INHERIT
+	state_machine.Initializer(self)
 	print("Player Respawned!")

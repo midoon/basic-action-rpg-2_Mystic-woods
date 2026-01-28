@@ -6,7 +6,7 @@ var PLAYER: Node2D = null
 var is_dead := false
 
 @export var max_hp:int = 100
-@export var attack_daamge: int = 5
+@export var attack_daamge: int = 25
 @export var attack_cooldown: float = 1.5
 
 var current_hp:int
